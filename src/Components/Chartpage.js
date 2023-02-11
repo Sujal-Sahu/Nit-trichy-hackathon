@@ -79,6 +79,8 @@ width: 100%;
 }
 .recharts-wrapper{
     background: #1e293b;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 .sujalsahumain{
     padding: 10px;
@@ -87,6 +89,8 @@ width: 100%;
     font-size: 21px;
     margin: 5% 4.9% 0% 4.9%;
     border: 2px solid white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 }
 `;
