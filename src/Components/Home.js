@@ -5,7 +5,7 @@ import Footer from './Footer'
 const Home = () => {
     const [arrdata,setarrdata]=useState([]);
     const [subarrdata,setsubarrdata]=useState([]);
-    const [rankingData, setRankingData] = useState()
+    const [rankingData, setRankingData] = useState(null)
     const isValidUrl = urlString=> {
         try { 
             return Boolean(new URL(urlString)); 
@@ -83,9 +83,10 @@ const Home = () => {
     <>
        <Navbar/>
        <Chartpage arrdata={arrdata} text={"Carbon Footprint"}/><br/><br/><br/>
-       <h3 className="font-semibold text-base text-blueGray-700">Your Total Carbon Emission is {parseFloat(rankingData.UserEmission).toFixed(5)} grams.</h3><br/>
+      {rankingData?<> <h3 className="font-semibold text-base text-blueGray-700">Your Total Carbon Emission is {parseFloat(rankingData.UserEmission).toFixed(5)} grams.</h3><br/>
        <h3 className="font-semibold text-base text-blueGray-700">Your are in the top {(100 - (rankingData.UserEmission/(rankingData.otherUserEmission+rankingData.UserEmission))*100).toFixed(3) }% in causing less carbon emission.</h3>
-       <br/><br/><br/>
+       <br/><br/><br/></>:
+      null} 
        <Chartpage arrdata={arrdata} text={"Data Consumption"}/>
        {/* <Chartpage/> */}
        <section className="py-1 bg-blueGray-50">
