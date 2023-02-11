@@ -41,3 +41,21 @@
   font-size: 36px;
     margin-top: 50px;
 }
+
+.card_sujal{
+  margin-bottom: 5%;
+}
+
+.card_subsujal{
+  background: #424251;
+  color: white;
+}
+
+.sujalsahu{
+  background: #1e293b;
+  color: white;
+}
+
+.naman{
+  color:black;
+}

@@ -1,6 +1,24 @@
-import React from 'react'
+import {React,useState} from 'react'
 
 const Login = () => {
+    const [email,setemail]=useState("");
+    const [password,setpassword]=useState("");
+    const handlesubmit=async()=>{
+           let data=await fetch('https://tri-nit-backend.vercel.app/api/user/login',{
+              method:"POST",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        'Accept': 'application/json'
+              },
+              body:JSON.stringify({
+                  email:email,
+                password:password
+              })
+           });
+           let maindata=await data.json();
+           console.log(maindata);
+    }
   return (
     <div className="relative flex h-full w-full">
   <div className="h-screen w-1/2 bg-black">
@@ -10,7 +28,7 @@ const Login = () => {
         <p>please login to continue|</p>
       </div>
       <div className="my-6">
-        <button className="flex w-full justify-center rounded-3xl border-none bg-white p-1 text-black hover:bg-gray-200 sm:p-2"><img src="https://freesvg.org/img/1534129544.png" className="mr-2 w-6 object-fill" />Sign in with Google</button>
+        <a href="/signup" className="flex w-full justify-center rounded-3xl border-none bg-white p-1 text-black hover:bg-gray-200 sm:p-2">Sign Up Here</a>
       </div>
       <div>
         <fieldset className="border-t border-solid border-gray-600">
@@ -21,20 +39,18 @@ const Login = () => {
         <form>
           <div>
             <label className="mb-2.5 block font-extrabold" for="email">Email</label>
-            <input type="email" id="email" className="inline-block w-full rounded-full bg-white p-2.5 leading-none text-black placeholder-indigo-900 shadow placeholder:opacity-30" placeholder="mail@user.com" />
+            <input type="email" id="email" className="inline-block w-full rounded-full bg-white p-2.5 leading-none text-black placeholder-indigo-900 shadow placeholder:opacity-30" onChange={(event)=>{event.preventDefault();setemail(event.target.value)}} placeholder="mail@user.com" />
           </div>
           <div className="mt-4">
             <label className="mb-2.5 block font-extrabold" for="email">Password</label>
-            <input type="password" id="email" className="inline-block w-full rounded-full bg-white p-2.5 leading-none text-black placeholder-indigo-900 shadow" />
+            <input type="password" id="password" onChange={(event)=>{event.preventDefault();setpassword(event.target.value)}}className="inline-block w-full rounded-full bg-white p-2.5 leading-none text-black placeholder-indigo-900 shadow" />
           </div>
           <div className="mt-4 flex w-full flex-col justify-between sm:flex-row">
             <div><input type="checkbox" id="remember" /><label for="remember" className="mx-2 text-sm">Remember me</label></div>
-            <div>
-              <a href="#" className="text-sm hover:text-gray-200">Forgot password</a>
-            </div>
+           
           </div>
           <div className="my-10">
-            <button className="w-full rounded-full bg-orange-600 p-5 hover:bg-orange-800">Login</button>
+            <button onClick={(event)=>{event.preventDefault();handlesubmit();}} className="w-full rounded-full bg-orange-600 p-5 hover:bg-orange-800">Login</button>
           </div>
         </form>
       </div>

@@ -2,8 +2,8 @@ import React, { useState,useContext } from 'react'
 
 function Footer() {
   return (
-    <div>
-        <div class="max-w-2xl mx-auto">
+    <div style={{width:"100vw"}}>
+        <div class="max-w-8xl mx-auto">
 
 <footer class="p-4 bg-white sm:p-6 dark:bg-gray-800">
     <div class="md:flex md:justify-between">
