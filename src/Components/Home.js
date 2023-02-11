@@ -19,23 +19,25 @@ const Home = () => {
             let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getalldata');
             let maindata=await data.json();
             let alldata=maindata.alldata;
-            alldata.sort(function(a, b) {
-              if (a.count < b.count) {
-                return -1;
-              }
-              if (a.count > b.count) {
-                return 1;
-              }
-              return 0;
-            });
-            setsubarrdata(alldata);       
+            // let tempdata=alldata;
+            // tempdata.sort(function(a, b) {
+            //   if (parseInt(a.count) < parseInt(b.count)) {
+            //     return -1;
+            //   }
+            //   if (parseInt(a.count) > parseInt(b.count)) {
+            //     return 1;
+            //   }
+            //   return 0;
+            // });
+            // setsubarrdata(tempdata);       
     let processedElements=new Set();
     let mainalldata=[];
            for(let i=0;i<alldata.length;i++){
               if(processedElements.has(alldata[i].webpage) || !isValidUrl(alldata[i].webpage)){
                  continue;
               }
-              alldata[i].totalcarbonemission=alldata[i].totaldata*11;
+              alldata[i].totaldata=(parseFloat(alldata[i].totaldata)).toFixed(5);
+              alldata[i].totalcarbonemission=(alldata[i].totaldata*11).toFixed(5);
               processedElements.add(alldata[i].webpage);
               mainalldata.push(alldata[i]);
            }
@@ -43,12 +45,16 @@ const Home = () => {
       }
         handlesubmit();
     },[]);
-    // const handlenewapi=async(webpagename)=>{
-    //    let data=await fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`);
-    //    let maindata=await data.json();
-    //    console.log(maindata.results);
-    //    setsubarrdata(maindata.results);
-    // }
+    const handlenewapi=async(webpagename)=>{
+      let data = await fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`);
+      let maindata = await data.json();
+     console.log("maindata.results", maindata);
+      if(maindata.results.length>0){
+        subarrdata[webpagename] = maindata.results
+        setsubarrdata(subarrdata)
+        console.log("subarrdata",subarrdata)
+      }
+    }
     const handledescription=(date)=>{
         console.log("sujal sahu");
             // document.getElementById(`lower_arrow_${date}`).style.display="none"
@@ -93,10 +99,10 @@ const Home = () => {
              Total Visits
           </th>
           <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-center text-blueGray-600 uppercase tracking-wider py-3">
-            Data Consumption(GB)
+            Data Consumption(MB)
           </th>
           <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3">
-             Carbon Emission(gms)
+             Carbon Emission(mg)
           </th>
           <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3">
              Status
@@ -113,10 +119,11 @@ const Home = () => {
               {element.count}
             </td>
             <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {element.totaldata}
+            {/* {(element.totaldata*1024).toFixed(5)} */}
+            {(parseFloat(element.totaldata)*1024)}
             </td>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {element.totalcarbonemission}
+            {(parseFloat(element.totalcarbonemission)*1000).toFixed(5)}
             </td>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {element.totalcarbonemission<11?<div className='sujal' style={{backgroundColor:"green"}}></div>:(element.totalcarbonemission<20?<div className='sujal' style={{backgroundColor:"yellow"}}></div>:<div className='sujal' style={{backgroundColor:"red"}}></div>)}
@@ -168,8 +175,10 @@ const Home = () => {
   <div className="card_body_arrow_icon_upper" id={`upper_arrow_${element.date}`} style={{display:"none"}}>
    <button onClick={(event)=>{event.preventDefault();handledescriptionreverse(element.date)}}><i className="fa-solid fa-angle-up"></i></button>
   </div>
+  {handlenewapi}
   <div className="card_body_description">
-    {Array.isArray(subarrdata) && subarrdata.length!==0 && subarrdata.map((subelement)=>{
+    {subarrdata[element.webpage] && subarrdata[element.webpage].map((subelement)=>{
+      console.log("sujal sahu");
   return <div key={subelement.date} className="card card_subsujal" id={`sub_content_${element.date}`} style={{display:"block"}}>
   <h5 className="card-header">{`Visit ${subelement.count}`}</h5>
   <div className="card-body card_body_sujal">
