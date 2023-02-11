@@ -1,13 +1,43 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card_sujal{
+  border: 2px solid black;
+    margin: 27px;
+    border-radius: 11px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.cardlistcommon{
+  border-bottom: 2px solid black;
+}
+
+.card-header{
+  border-bottom: 2px solid;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.card_body_sujal{
+  display: flex;
+    justify-content: space-evenly;
+    margin: 2% 0%;
+}
+
+.card_subsujal{
+  border: 2px solid black;
+  margin: 7px;
+  border-radius: 7px;
+}
+
+.sujal{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* background-color: green; */
+}
+
+.mainheader h1{
+  font-size: 36px;
+    margin-top: 50px;
 }
