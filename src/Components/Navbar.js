@@ -8,7 +8,7 @@ const Navbar = () => {
 
     <div className="w-full backdrop-blur-sm">
         <div className="relative z-1 h-16 mx-auto px-5 max-w-7xl flex items-center justify-between text-white">
-            <Link className="text-2xl hover:text-cyan-400 transition-colors" href="/">CarboonFootprint</Link>
+            <Link className="text-2xl hover:text-cyan-400 transition-colors" href="/">CarbonFootprint</Link>
 
             <ul className="flex items-center gap-5">
                 <li><Link to="/" className="hover:text-cyan-400 transition-colors">Dashboard</Link></li>

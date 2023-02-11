@@ -4,7 +4,8 @@ import Chartpage from './Chartpage'
 import Footer from './Footer'
 const Home = () => {
     const [arrdata,setarrdata]=useState([]);
-    // const [subarrdata,setsubarrdata]=useState({});
+    const [subarrdata,setsubarrdata]=useState([]);
+    const [rankingData, setRankingData] = useState(null);
     const mappedArray = {};
     const isValidUrl = urlString=> {
         try { 
@@ -14,22 +15,19 @@ const Home = () => {
             return false; 
         }
     }
+
+
+    const getUserRanking = async()=>{
+      let data = await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getUserRanking?user=abc@gmail.com')
+      data = await data.json()
+      setRankingData(data)
+    }
     useEffect(()=>{
         const handlesubmit=async()=>{
           // event.preventDefault();
             let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getalldata');
             let maindata=await data.json();
             let alldata=maindata.alldata;
-            alldata.map(function(value,index){
-                 if(mappedArray[value.webpage]){
-                     console.log("element already present.");
-                 }
-                 else{
-                  console.log("sujal sahu");
-                  fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${value.webpage}`).then(response=>response.json()).then(json=>{mappedArray[value.webpage]=json.results;});
-                   
-                 }
-            })
             // let tempdata=alldata;
             // tempdata.sort(function(a, b) {
             //   if (parseInt(a.count) < parseInt(b.count)) {
@@ -54,7 +52,8 @@ const Home = () => {
            }
            setarrdata(mainalldata);
       }
-        handlesubmit();
+      handlesubmit();
+      getUserRanking();
     },[]);
     // const handlenewapi=async(webpagename)=>{
     //   let data = await fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`);
@@ -84,7 +83,11 @@ const Home = () => {
   return (
     <>
        <Navbar/>
-       <Chartpage arrdata={arrdata} text={"Carbon Footprint"}/>
+       <Chartpage arrdata={arrdata} text={"Carbon Footprint"}/><br/><br/><br/>
+      {rankingData?<><div className='subcardtop'><h3 className="font-semibold text-base text-blueGray-700" style={{fontSize: "22px"}}>Your Total Carbon Emission is {parseFloat(rankingData.UserEmission).toFixed(5)} grams.</h3><br/>
+       <h3 className="font-semibold text-base text-blueGray-700">Your are in the top {(100 - (rankingData.UserEmission/(rankingData.otherUserEmission+rankingData.UserEmission))*100).toFixed(3) }% in causing less carbon emission.</h3>
+       </div></>:
+      null} 
        <Chartpage arrdata={arrdata} text={"Data Consumption"}/>
        {/* <Chartpage/> */}
        <section className="py-1 bg-blueGray-50">
@@ -169,15 +172,15 @@ const Home = () => {
   <h5 className="card-header">{element.webpage}</h5>
   <div className="card-body card_body_sujal">
       <div className="card_body_content">
-           <h4>Total Data Consumption(MB)</h4>
+           <h4 style={{ color: "#fffba6"}}>Total Data Consumption(MB)</h4>
            <p>{element.totaldata*1024}</p>
       </div>
       <div className="card_body_content">
-           <h4>Total Carbon Emission(in gms)</h4>
+           <h4 style={{ color: "#fffba6"}}>Total Carbon Emission(in gms)</h4>
            <p>{element.totalcarbonemission}</p>
       </div>
       <div className="card_body_content">
-           <h4>No. of visits</h4>
+           <h4 style={{ color: "#fffba6"}}>No. of visits</h4>
            <p>{element.count}</p>
       </div>
   </div>

@@ -43,9 +43,11 @@
 }
 
 .card_sujal{
-  margin-bottom: 5%;
+  /* margin-bottom: 5%; */
   background: #1e293b;
   color: white;
+  width: 50%;
+  margin: 2% auto;
 }
 
 .card_subsujal{
@@ -60,4 +62,12 @@
 
 .naman{
   color:black;
+}
+
+.subcardtop{
+  background: #1e293b;
+  color: white;
+  padding: 15px;
+  margin: 0% 4.9%;
+  border-radius: 10px;
 }
