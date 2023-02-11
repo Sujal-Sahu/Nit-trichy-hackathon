@@ -132,6 +132,12 @@ const Home = (props) => {
 "https://www.dev.to/"
 
      ]
+     mappedArray["https://web.whatsapp.com"]=[
+      ";https://www.whatsapp-web.net",
+"https://www.whatsapp-online.ru/",
+"https://www.wasapweb.com.mx"
+
+     ]
      mappedArray["https://demos.creative-tim.com"]=[
       "https://www.creative-tim.com/",
       "https://www.iradesign.io/"
@@ -150,6 +156,16 @@ const Home = (props) => {
       "https://www.analyticsvidhya.com/",
       "https://www.towardsdatascience.com/",
       "https://www.scikit-learn.org/"
+     ]
+     mappedArray["https://classroom.google.com"]=[
+      "https://www.bjorng.com",
+      "https://www.clanitra.com/",
+      "https://www.equipofutucam.org/"
+     ]
+     mappedArray["https://imagecolorpicker.com"]=[
+      "https://www.colorcodepicker.com",
+      "https://www.html-color-codes.info/",
+      "https://www.htmlcolorcodes.com/"
      ]
   return (
     <>
