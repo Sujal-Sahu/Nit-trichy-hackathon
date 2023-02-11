@@ -18,7 +18,7 @@ function Chartpage(props) {
     return (
         <Section>
             <div className="analytics">
-                <div className="analytics__details">
+                <div className="analytics__details sujalsahumain">
                     <div style={{margin: "auto"}}>
                         <h4 className='text-center'>{props.text} per page analytics</h4>
                     </div>
@@ -29,14 +29,14 @@ function Chartpage(props) {
       width={500}
       height={300}
       data={data}
-      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+      margin={{ top:50, right: 30, left: 20, bottom: 5 }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="webpage" />
-      <YAxis />
+      <XAxis dataKey="webpage" tick={{ fontSize: 12, fill: "white" }} />
+      <YAxis  tick={{ fontSize: 12, fill: "white" }} />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey={props.text==="Data Consumption"?"totaldata":"totalcarbonemission"} stroke="#8884d8" activeDot={{ r: 8 }} />
+      <Line type="monotone" dataKey={props.text==="Data Consumption"?"totaldata":"totalcarbonemission"} stroke="white" strokeWidth="2" activeDot={{ r: 8 }} />
     </LineChart>
         </ResponsiveContainer>
                 </div>
@@ -76,6 +76,21 @@ width: 100%;
       border-color: black !important;
       color : white !important;
     }
+}
+.recharts-wrapper{
+    background: #1e293b;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+.sujalsahumain{
+    padding: 10px;
+    background: #1e293b;
+    color: white;
+    font-size: 21px;
+    margin: 5% 4.9% 0% 4.9%;
+    border: 2px solid white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 }
 `;
