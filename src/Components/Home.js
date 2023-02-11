@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import Chartpage from './Chartpage'
+import Footer from './Footer'
 const Home = () => {
     const [arrdata,setarrdata]=useState([]);
     const [subarrdata,setsubarrdata]=useState([]);
@@ -14,10 +15,11 @@ const Home = () => {
     }
     useEffect(()=>{
         const handlesubmit=async()=>{
+          // event.preventDefault();
             let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getalldata');
             let maindata=await data.json();
             let alldata=maindata.alldata; 
-            setsubarrdata(alldata);       
+            // setsubarrdata(alldata);       
     let processedElements=new Set();
     let mainalldata=[];
            for(let i=0;i<alldata.length;i++){
@@ -32,6 +34,12 @@ const Home = () => {
       }
         handlesubmit();
     },[]);
+    const handlenewapi=async(webpagename)=>{
+       let data=await fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`);
+       let maindata=await data.json();
+       console.log(maindata.results);
+       setsubarrdata(maindata.results);
+    }
     const handledescription=(date)=>{
         console.log("sujal sahu");
             // document.getElementById(`lower_arrow_${date}`).style.display="none"
@@ -127,7 +135,7 @@ const Home = () => {
 <div className="mainheader">
     <h1>Detailed Analysis</h1>
 </div> 
-       {arrdata.map((element)=>{
+       {Array.isArray(arrdata) && arrdata.map((element)=>{
        return (<div className="card card_sujal">
   <h5 className="card-header">{element.webpage}</h5>
   <div className="card-body card_body_sujal">
@@ -144,16 +152,17 @@ const Home = () => {
            <p>{element.count}</p>
       </div>
   </div>
-
+   
   <div className="card_body_arrow_icon_lower" id={`lower_arrow_${element.date}`} style={{display:"block"}}>
-   <button onClick={handledescription(element.date)}><i className="fa-solid fa-angle-down"></i></button>
+   <button onClick={(event)=>{event.preventDefault();handledescription(element.date)}}><i className="fa-solid fa-angle-down"></i></button>
   </div>
   <div className="card_body_arrow_icon_upper" id={`upper_arrow_${element.date}`} style={{display:"none"}}>
-   <button onClick={handledescriptionreverse(element.date)}><i className="fa-solid fa-angle-up"></i></button>
+   <button onClick={(event)=>{event.preventDefault();handledescriptionreverse(element.date)}}><i className="fa-solid fa-angle-up"></i></button>
   </div>
+  {handlenewapi(element.webpage)};
   <div className="card_body_description">
-    {subarrdata.map((subelement)=>{
-  return subelement.webpage===element.webpage?<div className="card card_subsujal" id={`sub_content_${element.date}`} style={{display:"none"}}>
+    {Array.isArray(subarrdata) && subarrdata.length!==0 && subarrdata.map((subelement)=>{
+  return <div className="card card_subsujal" id={`sub_content_${element.date}`} style={{display:"block"}}>
   <h5 className="card-header">{`Visit ${subelement.count}`}</h5>
   <div className="card-body card_body_sujal">
       <div className="card_body_content">
@@ -167,11 +176,11 @@ const Home = () => {
        
   </div>
   </div>
-  :""
 })}
 </div>
 </div>)
 })}
+<Footer/>
     </>
   )
 }
