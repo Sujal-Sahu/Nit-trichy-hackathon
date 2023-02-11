@@ -5,6 +5,7 @@ import Footer from './Footer'
 const Home = () => {
     const [arrdata,setarrdata]=useState([]);
     const [subarrdata,setsubarrdata]=useState([]);
+    const [rankingData, setRankingData] = useState()
     const isValidUrl = urlString=> {
         try { 
             return Boolean(new URL(urlString)); 
@@ -13,12 +14,22 @@ const Home = () => {
             return false; 
         }
     }
+
+
+    const getUserRanking = async()=>{
+      let data = await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getUserRanking?user=abc@gmail.com')
+      data = await data.json()
+      setRankingData(data)
+
+
+    }
     useEffect(()=>{
         const handlesubmit=async()=>{
           // event.preventDefault();
             let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getalldata');
             let maindata=await data.json();
             let alldata=maindata.alldata;
+            getUserRanking()
             // let tempdata=alldata;
             // tempdata.sort(function(a, b) {
             //   if (parseInt(a.count) < parseInt(b.count)) {
@@ -71,7 +82,10 @@ const Home = () => {
   return (
     <>
        <Navbar/>
-       <Chartpage arrdata={arrdata} text={"Carbon Footprint"}/>
+       <Chartpage arrdata={arrdata} text={"Carbon Footprint"}/><br/><br/><br/>
+       <h3 className="font-semibold text-base text-blueGray-700">Your Total Carbon Emission is {parseFloat(rankingData.UserEmission).toFixed(5)} grams.</h3><br/>
+       <h3 className="font-semibold text-base text-blueGray-700">Your are in the top {(100 - (rankingData.UserEmission/(rankingData.otherUserEmission+rankingData.UserEmission))*100).toFixed(3) }% in causing less carbon emission.</h3>
+       <br/><br/><br/>
        <Chartpage arrdata={arrdata} text={"Data Consumption"}/>
        {/* <Chartpage/> */}
        <section className="py-1 bg-blueGray-50">
