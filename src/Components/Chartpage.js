@@ -14,7 +14,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
   
 function Chartpage(props) {
     let data=props.arrdata;
-   
+    
     return (
         <Section>
             <div className="analytics">

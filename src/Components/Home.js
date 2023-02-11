@@ -155,7 +155,7 @@ const Home = () => {
        <Chartpage arrdata={arrdata} text={"Data Consumption"}/>
        <Chartpagesecond arrdata={emissionrankingdata} text={"Day"}/><br/><br/><br/>
        {/* <Chartpage/> */}
-       <section className="py-1 bg-blueGray-50">
+       <section className="bg-blueGray-50">
 <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded sujalsahu">
     <div className="rounded-t mb-0 px-4 py-3 border-0">
@@ -265,7 +265,7 @@ const Home = () => {
       // console.log("sujal sahu");
   return <div key={subelement} className="card-body card_body_sujal">
       <div className="card_body_content">
-           <li style={{fontSize: "17px"}}><a href={subelement}>{subelement}</a></li>
+           <li style={{fontSize: "17px"}}><a href={subelement} target="_blank">{subelement}</a></li>
       </div>       
   </div>
 })}
