@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import Chartpage from './Chartpage'
+import Chartpagesecond from './Chartpagesecond'
 import Footer from './Footer'
 const Home = () => {
     const [arrdata,setarrdata]=useState([]);
     const [subarrdata,setsubarrdata]=useState([]);
+    const [emissionrankingdata,setemissionrankingdata]=useState([]);
     const [rankingData, setRankingData] = useState(null);
     const isValidUrl = urlString=> {
         try { 
@@ -24,9 +26,10 @@ const Home = () => {
     useEffect(()=>{
         const handlesubmit=async()=>{
           // event.preventDefault();
-            let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getalldata');
+            let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getdata/naman@gmail.com');
             let maindata=await data.json();
-            let alldata=maindata.alldata;
+            console.log(maindata);
+            let alldata=maindata.results;
             // let tempdata=alldata;
             // tempdata.sort(function(a, b) {
             //   if (parseInt(a.count) < parseInt(b.count)) {
@@ -51,8 +54,35 @@ const Home = () => {
            }
            setarrdata(mainalldata);
       }
+      const handlefunction=async()=>{
+           let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/lastThreeDays?userid=naman@gmail.com');
+           let maindata=await data.json();
+           let aujdata=[maindata.data]
+           console.log(aujdata);
+           let tempobj={};
+           let temparr=[];
+            // for(let i=0;i<aujdata.length;i++){
+            //     tempobj.day=i+1;
+            //     tempobj.emission=aujdata[i].emission;
+            //     temparr.push(tempobj);
+            // }
+            temparr.push({
+              day:"1",
+               emission:aujdata[0].emission1.toFixed(5)
+            })
+            temparr.push({
+              day:"2",
+               emission:aujdata[0].emission2.toFixed(5)
+            })
+            temparr.push({
+              day:"3",
+               emission:aujdata[0].emission3.toFixed(5)
+            })
+           setemissionrankingdata(temparr);
+      }
       handlesubmit();
       getUserRanking();
+      handlefunction();
     },[]);
     // const handlenewapi=async(webpagename)=>{
     //   let data = await fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`);
@@ -123,6 +153,7 @@ const Home = () => {
        </div></>:
       null} 
        <Chartpage arrdata={arrdata} text={"Data Consumption"}/>
+       <Chartpagesecond arrdata={emissionrankingdata} text={"Day"}/><br/><br/><br/>
        {/* <Chartpage/> */}
        <section className="py-1 bg-blueGray-50">
 <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
@@ -206,15 +237,15 @@ const Home = () => {
   <h5 className="card-header">{element.webpage}</h5>
   <div className="card-body card_body_sujal">
       <div className="card_body_content">
-           <h4 style={{ color: "rgb(224 223 206)"}}>Total Data Consumption(MB)</h4>
+           <h4 style={{ color: "#d3d3b6"}}>Total Data Consumption(MB)</h4>
            <p>{element.totaldata*1024}</p>
       </div>
       <div className="card_body_content">
-           <h4 style={{ color: "rgb(224 223 206)"}}>Total Carbon Emission(in gms)</h4>
+           <h4 style={{ color: "#d3d3b6"}}>Total Carbon Emission(in gms)</h4>
            <p>{element.totalcarbonemission}</p>
       </div>
       <div className="card_body_content">
-           <h4 style={{ color: "rgb(224 223 206)"}}>No. of visits</h4>
+           <h4 style={{ color: "#d3d3b6"}}>No. of visits</h4>
            <p>{element.count}</p>
       </div>
   </div>
@@ -228,7 +259,7 @@ const Home = () => {
   {/* {handlenewapi(element.webpage)} */}
   <div className="card_body_description">
   <div className="card card_subsujal" id={`sub_content_${element.date}`} style={{display:"block"}}>
-  <h5 className="card-header">{`Visit Here`}</h5>
+  <h5 className="card-header" style={{color:"#d3d3b6"}}>{`Visit Here`}</h5>
     {/* {console.log(mappedArray[element.webpage])} */}
     {mappedArray[element.webpage] && mappedArray[element.webpage].map((subelement)=>{
       // console.log("sujal sahu");
