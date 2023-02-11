@@ -76,7 +76,7 @@ const Home = () => {
        {/* <Chartpage/> */}
        <section className="py-1 bg-blueGray-50">
 <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
-  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
+  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded sujalsahu">
     <div className="rounded-t mb-0 px-4 py-3 border-0">
       <div className="flex flex-wrap items-center">
         <div className="relative w-full px-4 max-w-full flex-grow flex-1">
@@ -92,19 +92,19 @@ const Home = () => {
       <table className="items-center bg-transparent w-full border-collapse">
       <thead>
         <tr>
-          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3">
+          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3 naman">
             Web Page
           </th>
-          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3">
+          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3 naman">
              Total Visits
           </th>
-          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-center text-blueGray-600 uppercase tracking-wider py-3">
+          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-center text-blueGray-600 uppercase tracking-wider py-3 naman">
             Data Consumption(MB)
           </th>
-          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3">
+          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3 naman">
              Carbon Emission(mg)
           </th>
-          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3">
+          <th className="border-t-0 px-6 bg-gray-100 text-xs font-medium text-left text-blueGray-600 uppercase tracking-wider py-3 naman">
              Status
           </th>
         </tr>
