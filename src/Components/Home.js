@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import Chartpage from './Chartpage'
+import Chartpagesecond from './Chartpagesecond'
 import Footer from './Footer'
 import { useNavigate } from 'react-router'
 
 const Home = (props) => {
     const [arrdata,setarrdata]=useState([]);
     const [subarrdata,setsubarrdata]=useState([]);
+    const [emissionrankingdata,setemissionrankingdata]=useState([]);
     const [rankingData, setRankingData] = useState(null);
+    
     const user = props.user;
     const navigate = useNavigate();
-    const mappedArray = {};
+    //const mappedArray = {};
+
     const isValidUrl = urlString=> {
         try { 
             return Boolean(new URL(urlString)); 
@@ -29,9 +33,10 @@ const Home = (props) => {
     useEffect(()=>{
         const handlesubmit=async()=>{
           // event.preventDefault();
-            let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getalldata');
+            let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getdata/'+user);
             let maindata=await data.json();
-            let alldata=maindata.alldata;
+            console.log(maindata);
+            let alldata=maindata.results;
             // let tempdata=alldata;
             // tempdata.sort(function(a, b) {
             //   if (parseInt(a.count) < parseInt(b.count)) {
@@ -56,8 +61,35 @@ const Home = (props) => {
            }
            setarrdata(mainalldata);
       }
+      const handlefunction=async()=>{
+           let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/lastThreeDays?userid=naman@gmail.com');
+           let maindata=await data.json();
+           let aujdata=[maindata.data]
+           console.log(aujdata);
+           let tempobj={};
+           let temparr=[];
+            // for(let i=0;i<aujdata.length;i++){
+            //     tempobj.day=i+1;
+            //     tempobj.emission=aujdata[i].emission;
+            //     temparr.push(tempobj);
+            // }
+            temparr.push({
+              day:"1",
+               emission:aujdata[0].emission1.toFixed(5)
+            })
+            temparr.push({
+              day:"2",
+               emission:aujdata[0].emission2.toFixed(5)
+            })
+            temparr.push({
+              day:"3",
+               emission:aujdata[0].emission3.toFixed(5)
+            })
+           setemissionrankingdata(temparr);
+      }
       handlesubmit();
       getUserRanking();
+      handlefunction();
     },[]);
     // const handlenewapi=async(webpagename)=>{
     //   let data = await fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`);
@@ -83,7 +115,42 @@ const Home = (props) => {
             // document.getElementById(`upper_arrow_${date}`).style.display="none"
             // document.getElementById(`sub_content_${date}`).style.display="none";
     }
-   
+    let mappedArray={};
+    mappedArray["https://www.google.com"]=[
+      "https://www.bing.com/",
+      "https://www.duckduckgo.com/",
+      "https://www.yahoo.com/"
+     ]
+    mappedArray["https://rapidapi.com"]=[
+      "https://www.programmableweb.com/",
+"https://www.getpostman.com/",
+"https://www.npmjs.com/"
+     ]
+     mappedArray["https://stackoverflow.com"]=[
+      "https://www.geeksforgeeks.org/",
+"https://www.quora.com/",
+"https://www.dev.to/"
+
+     ]
+     mappedArray["https://demos.creative-tim.com"]=[
+      "https://www.creative-tim.com/",
+      "https://www.iradesign.io/"
+     ]
+     mappedArray["https://github.com"]=[
+      "https://www.stackoverflow.com/",
+      "https://www.medium.com/",
+      "https://www.w3schools.com/"
+     ]
+     mappedArray["https://leetcode.com"]=[
+      "https://www.hackerrank.com/",
+      "https://www.interviewbit.com/",
+      "https://www.hackerearth.com/"
+     ]
+     mappedArray["https://www.kaggle.com"]=[
+      "https://www.analyticsvidhya.com/",
+      "https://www.towardsdatascience.com/",
+      "https://www.scikit-learn.org/"
+     ]
   return (
     <>
        <Navbar/>
@@ -93,6 +160,7 @@ const Home = (props) => {
        </div></>:
       null} 
        <Chartpage arrdata={arrdata} text={"Data Consumption"}/>
+       <Chartpagesecond arrdata={emissionrankingdata} text={"Day"}/><br/><br/><br/>
        {/* <Chartpage/> */}
        <section className="py-1 bg-blueGray-50">
 <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
@@ -176,15 +244,15 @@ const Home = (props) => {
   <h5 className="card-header">{element.webpage}</h5>
   <div className="card-body card_body_sujal">
       <div className="card_body_content">
-           <h4 style={{ color: "#fffba6"}}>Total Data Consumption(MB)</h4>
+           <h4 style={{ color: "#d3d3b6"}}>Total Data Consumption(MB)</h4>
            <p>{element.totaldata*1024}</p>
       </div>
       <div className="card_body_content">
-           <h4 style={{ color: "#fffba6"}}>Total Carbon Emission(in gms)</h4>
+           <h4 style={{ color: "#d3d3b6"}}>Total Carbon Emission(in gms)</h4>
            <p>{element.totalcarbonemission}</p>
       </div>
       <div className="card_body_content">
-           <h4 style={{ color: "#fffba6"}}>No. of visits</h4>
+           <h4 style={{ color: "#d3d3b6"}}>No. of visits</h4>
            <p>{element.count}</p>
       </div>
   </div>
@@ -197,24 +265,18 @@ const Home = (props) => {
   </div>
   {/* {handlenewapi(element.webpage)} */}
   <div className="card_body_description">
-    {console.log(mappedArray[element.webpage])}
+  <div className="card card_subsujal" id={`sub_content_${element.date}`} style={{display:"block"}}>
+  <h5 className="card-header" style={{color:"#d3d3b6"}}>{`Visit Here`}</h5>
+    {/* {console.log(mappedArray[element.webpage])} */}
     {mappedArray[element.webpage] && mappedArray[element.webpage].map((subelement)=>{
-      console.log("sujal sahu");
-  return <div key={subelement.date} className="card card_subsujal" id={`sub_content_${element.date}`} style={{display:"block"}}>
-  <h5 className="card-header">{`Visit ${subelement.count}`}</h5>
-  <div className="card-body card_body_sujal">
+      // console.log("sujal sahu");
+  return <div key={subelement} className="card-body card_body_sujal">
       <div className="card_body_content">
-           <h4>Data Consumption(MB)</h4>
-           <p>{subelement.datatransferredingb*1024}</p>
-      </div>
-      <div className="card_body_content">
-           <h4>Carbon Emission(in mg)</h4>
-           <p>{subelement.carbonemission}</p>
-      </div>
-       
-  </div>
+           <li style={{fontSize: "17px"}}><a href={subelement}>{subelement}</a></li>
+      </div>       
   </div>
 })}
+</div>
 </div>
 </div>)
 })}
