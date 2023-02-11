@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import Chartpage from './Chartpage'
 import Footer from './Footer'
-const Home = () => {
+import { useNavigate } from 'react-router'
+
+const Home = (props) => {
     const [arrdata,setarrdata]=useState([]);
     const [subarrdata,setsubarrdata]=useState([]);
     const [rankingData, setRankingData] = useState(null);
+    const user = props.user;
+    const navigate = useNavigate();
     const mappedArray = {};
     const isValidUrl = urlString=> {
         try { 
@@ -18,7 +22,7 @@ const Home = () => {
 
 
     const getUserRanking = async()=>{
-      let data = await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getUserRanking?user=abc@gmail.com')
+      let data = await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getUserRanking?user='+user)
       data = await data.json()
       setRankingData(data)
     }
