@@ -4,7 +4,8 @@ import Chartpage from './Chartpage'
 import Footer from './Footer'
 const Home = () => {
     const [arrdata,setarrdata]=useState([]);
-    const [subarrdata,setsubarrdata]=useState([]);
+    // const [subarrdata,setsubarrdata]=useState({});
+    const mappedArray = {};
     const isValidUrl = urlString=> {
         try { 
             return Boolean(new URL(urlString)); 
@@ -19,6 +20,16 @@ const Home = () => {
             let data=await fetch('https://tri-nit-backend.vercel.app/api/carbonemission/getalldata');
             let maindata=await data.json();
             let alldata=maindata.alldata;
+            alldata.map(function(value,index){
+                 if(mappedArray[value.webpage]){
+                     console.log("element already present.");
+                 }
+                 else{
+                  console.log("sujal sahu");
+                  fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${value.webpage}`).then(response=>response.json()).then(json=>{mappedArray[value.webpage]=json.results;});
+                   
+                 }
+            })
             // let tempdata=alldata;
             // tempdata.sort(function(a, b) {
             //   if (parseInt(a.count) < parseInt(b.count)) {
@@ -45,16 +56,18 @@ const Home = () => {
       }
         handlesubmit();
     },[]);
-    const handlenewapi=async(webpagename)=>{
-      let data = await fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`);
-      let maindata = await data.json();
-     console.log("maindata.results", maindata);
-      if(maindata.results.length>0){
-        subarrdata[webpagename] = maindata.results
-        setsubarrdata(subarrdata)
-        console.log("subarrdata",subarrdata)
-      }
-    }
+    // const handlenewapi=async(webpagename)=>{
+    //   let data = await fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`);
+    //   let maindata = await data.json();
+    //   let arrdata=maindata.results;
+    // //  console.log("maindata.results", maindata);
+    //   if(Array.isArray(arrdata) && arrdata.length>0){
+    //     // subarrdata[webpagename] = maindata.results
+    //     setsubarrdata(arrdata)
+    //     console.log("subarrdata",arrdata)
+    //   }
+    //   fetch(`https://tri-nit-backend.vercel.app/api/carbonemission/getWebpageDetail?user=naman@gmail.com&webpage=${webpagename}`).then(response=>response.json()).then(json=>{setsubarrdata(json.results)});
+    // }
     const handledescription=(date)=>{
         console.log("sujal sahu");
             // document.getElementById(`lower_arrow_${date}`).style.display="none"
@@ -175,9 +188,10 @@ const Home = () => {
   <div className="card_body_arrow_icon_upper" id={`upper_arrow_${element.date}`} style={{display:"none"}}>
    <button onClick={(event)=>{event.preventDefault();handledescriptionreverse(element.date)}}><i className="fa-solid fa-angle-up"></i></button>
   </div>
-  {handlenewapi}
+  {/* {handlenewapi(element.webpage)} */}
   <div className="card_body_description">
-    {subarrdata[element.webpage] && subarrdata[element.webpage].map((subelement)=>{
+    {console.log(mappedArray[element.webpage])}
+    {mappedArray[element.webpage] && mappedArray[element.webpage].map((subelement)=>{
       console.log("sujal sahu");
   return <div key={subelement.date} className="card card_subsujal" id={`sub_content_${element.date}`} style={{display:"block"}}>
   <h5 className="card-header">{`Visit ${subelement.count}`}</h5>
@@ -187,7 +201,7 @@ const Home = () => {
            <p>{subelement.datatransferredingb*1024}</p>
       </div>
       <div className="card_body_content">
-           <h4>Carbon Emission(in gms)</h4>
+           <h4>Carbon Emission(in mg)</h4>
            <p>{subelement.carbonemission}</p>
       </div>
        
