@@ -230,7 +230,7 @@ const Home = (props) => {
             {(parseFloat(element.totalcarbonemission)*1000).toFixed(5)}
             </td>
             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {(parseFloat(element.totalcarbonemission)*1000).toFixed(5)<5.0?<div className='sujal' style={{backgroundColor:"green"}}></div>:((parseFloat(element.totalcarbonemission)*1000).toFixed(5)<12.0?<div className='sujal' style={{backgroundColor:"yellow"}}></div>:<div className='sujal' style={{backgroundColor:"red"}}></div>)}
+              {(parseFloat(element.totalcarbonemission)*1000).toFixed(5)<5.0?<div className='sujal' style={{backgroundColor:"green"}}></div>:((parseFloat(element.totalcarbonemission)*1000).toFixed(5)<10.0?<div className='sujal' style={{backgroundColor:"yellow"}}></div>:<div className='sujal' style={{backgroundColor:"red"}}></div>)}
             </td>
           </tr>
 
